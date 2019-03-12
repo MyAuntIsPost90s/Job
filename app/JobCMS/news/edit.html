@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资讯编辑</title>
+    <link rel="stylesheet" href="../resource/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/easyui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/icon.css">
+    <script src="../resource/common/js/config.js"></script>
+    <script src="../resource/lib/jq/jquery.min.js"></script>
+    <script src="../resource/lib/easyui-theme/jquery.easyui.min.js"></script>
+    <script src="../resource/lib/easyui-theme/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../resource/lib/gateway/gateway.js?version=0.0.3"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options='fit:"true"'>
+    <div data-options='region:"east"' style="width: 330px">
+        <form class="layui-form" id="form-news" style="padding: 10px">
+            <input name="id" type="hidden"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-inline" style="width: 60px">标题</label>
+                <div class="layui-input-inline" style="width: 170px;">
+                    <input type="text" name="title" placeholder="请输入标题" data-valid="name:'标题',length:[1,50]"
+                           autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-inline" style="width: 60px">预览图</label>
+                <div class="layui-input-inline" style="width: 170px;">
+                    <img id="img-previewPicUrl" src="../resource/common/images/dftimg.png" width="100%" data-path=""/>
+                    <button id="btn-previewPicUrl" type="button" class="layui-btn layui-btn-sm layui-btn-normal"
+                            style="width: 100%;margin: 5px 0"><i class="layui-icon">&#xe681;</i>上传
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-inline" style="width: 60px">作者</label>
+                <div class="layui-input-inline" style="width: 170px;">
+                    <input type="text" name="author" value="本站" placeholder="请输入作者" data-valid="name:'作者',length:[1,20]"
+                           autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-inline" style="width: 60px">发布时间</label>
+                <div class="layui-input-inline" style="width: 170px;">
+                    <input name="publishTime" id="inp-publishTime" value="2018-01-01 08:00:00"
+                           data-valid="name:'发布时间',length:[1,25]"
+                           autocomplete="off" readonly class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-inline" style="width: 60px">浏览量</label>
+                <div class="layui-input-inline" style="width: 170px;">
+                    <input type="number" value="0" name="scanCount" placeholder="请输入浏览量"
+                           data-valid="name:'浏览量',length:[0,5]"
+                           autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: right;padding:0 25px">
+                <button type="button" class="layui-btn layui-btn-sm" onclick="save()"><i class="layui-icon">&#xe605;</i>保存
+                </button>
+            </div>
+        </form>
+    </div>
+    <div id="div-paper" data-options='region:"center"'>
+        <div style="height: 50px;">
+            <label class="layui-form-label" style="float: left;width:5%;text-align: left;margin: 5px 0">摘要</label>
+            <input type="text" name="shortContent" placeholder="摘要"
+                   data-valid="name:'摘要',length:[0,500]"
+                   autocomplete="off" class="layui-input" style="float: right;width: 93%;margin: 5px 0"/>
+        </div>
+        <textarea id="ta-content" style="display: none;"></textarea>
+    </div>
+</div>
+</body>
+<script src="../resource/lib/layui/layui.all.js"></script>
+<script src="../resource/common/js/util.js"></script>
+<script>
+    var imgBasePath = '/news';
+    var pageType = 'add';
+    var editTag = -1;
+    var id = '';
+
+    var addUrl = '/sys/news/news/add';
+    var updateUrl = '/sys/news/news/update';
+    var detailUrl = '/sys/news/news/detail';
+
+    $(function () {
+        id = GatewayUtil.getParam("id");
+        pageType = GatewayUtil.getParam("type");
+        editTag = EditModel.build('ta-content', {height: (window.innerHeight - 50) + "px"}); //建立编辑器
+        layui.laydate.render({
+            elem: '#inp-publishTime'
+            , type: 'datetime'
+        });
+        initImgUploader();    //初始化预览图上传组件
+        if (pageType == 'edit') {
+            loadEditInfo();
+        }
+    })
+
+    //加载编辑信息
+    function loadEditInfo() {
+        Ajax({
+            url: detailUrl,
+            data: {id: id},
+            onSuccess: function (data) {
+                if (data.data.previewPicUrlNoPrefix != null && data.data.previewPicUrlNoPrefix != '') {
+                    $('#img-previewPicUrl').attr("data-path", data.data.previewPicUrlNoPrefix);
+                    $('#img-previewPicUrl').attr("src", data.data.previewPicUrl);
+                }
+                EditModel.setContent(editTag, data.data.content);
+                FormUtil.loadForm("#form-news", data.data);
+                $('input[name=shortContent]').val(data.data.shortContent);
+            }
+        });
+    }
+
+    //保存
+    function save() {
+        var postData = FormUtil.getFormMap("#form-news");
+        if (postData == null || postData == '') {
+            return;
+        }
+        postData.content = EditModel.getContent(editTag);
+        if (postData.content == null || postData.content == '') {
+            layer.msg('内容不能为空', {icon: 2});
+            return;
+        }
+        postData.previewPicUrl = $('#img-previewPicUrl').attr("data-path");
+        if (postData.previewPicUrl != null && postData.previewPicUrl == '') {
+            layer.msg('请上传一张预览图', {icon: 2});
+            return;
+        }
+        postData.shortContent = $('input[name=shortContent]').val();
+        if (postData.shortContent == null || postData.shortContent == '') {
+            layer.msg('摘要不能为空', {icon: 2});
+            return;
+        }
+        if (postData.shortContent.length > 150) {
+            layer.msg('摘要的长度不能大于150', {icon: 2});
+            return;
+        }
+        var url = addUrl
+        if (pageType == 'edit') {
+            url = updateUrl
+        }
+        Ajax({
+            url: url,
+            data: postData,
+            onSuccess: function (data) {
+                layer.open({
+                    type: 1
+                    , area: ['200px', '120px']
+                    , time: 2000
+                    , title: '提示'
+                    , content: '<div style="text-align: center;font-size: 14px;line-height: 50px">保存成功，正在跳转...</div>'
+                    , end: function () {
+                        window.opener = null;
+                        window.close();
+                    }
+                })
+            }
+        });
+    }
+
+    //初始化上传预览图
+    function initImgUploader() {
+        layui.upload.render({
+            elem: '#btn-previewPicUrl' //绑定元素
+            , accept: 'images'
+            , data: {
+                basePath: imgBasePath
+            }
+            , url: UPLOAD_URL //上传接口
+            , size: 1024
+            , before: function () {
+                layer.load();
+            }
+            , done: function (res) {
+                layer.closeAll('loading');
+                $('#img-previewPicUrl').attr("data-path", res.data[0].path);
+                $('#img-previewPicUrl').attr("src", res.data[0].url);
+            }
+            , error: function () {
+                layer.closeAll('loading');
+            }
+        });
+    }
+</script>
+</html>

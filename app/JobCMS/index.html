@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Online</title>
+    <link rel="icon" href="resource/common/images/icon.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="resource/lib/layui/css/layui.css"/>
+    <link rel="stylesheet" href="resource/common/css/layout.css?version=0">
+    <script src="resource/lib/jq/jquery.min.js"></script>
+    <script src="resource/common/js/config.js?version=0"></script>
+    <script src="resource/lib/gateway/gateway.js?version=0"></script>
+    <script src="resource/common/js/layout.js"></script>
+</head>
+<body>
+<div class="layui-header header layui-bg-black layui-row">
+    <div class="layui-col-xs3 logo">Job CMS Online</div>
+    <div class="layui-col-xs3 layui-col-xs-offset6 opt">
+        <a onclick="loadWellcom()" style="cursor: pointer;">首页</a> |
+        <a style="cursor: pointer;" href="login.html">退出</a>
+    </div>
+</div>
+<div class="container">
+    <div class="layui-inline layui-bg-black menu">
+        <div class="layui-row">
+            <div class="layui-inline headimg">
+                <img id="img-userhead" class="layui-nav-img" src="resource/common/images/dfthead.png"/>
+            </div>
+            <div class="layui-inline info">
+                <div id="div-realname">超级管理员</div>
+                <div id="div-username">root</div>
+            </div>
+        </div>
+        <ul class="layui-nav layui-nav-tree">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">招聘管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="job/job_classify.html">分类设置</a></dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="job/job.html?type=2">全职设置</a></dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="job/job.html?type=1">兼职设置</a></dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="job/job_report.html">招聘举报</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">系统管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="config/sys_config.html">基础配置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">个人中心</a>
+                <dl class="layui-nav-child">
+                    <dd><a data-id="user/info.html">修改密码</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main layui-inline">
+        <div class="layui-tab layui-tab-card" lay-filter="tab" lay-allowclose="true">
+            <ul class="layui-tab-title"></ul>
+            <div class="layui-tab-content"></div>
+        </div>
+    </div>
+</div>
+<div class="layui-footer layui-bg-black layout-footer"> build by ningxi</div>
+
+<script src="resource/lib/layui/layui.all.js"></script>
+<script src="resource/common/js/util.js"></script>
+<script>
+    var currUserUrl = '/sys/user/currUser';
+
+    $(function () {
+        loadMe();
+        loadWellcom();
+    })
+
+    //栏目点击事件
+    $('.layui-nav-item dd').click(function () {
+        var id = $(this).find('a').attr('data-id');
+        var text = $(this).find('a').text();
+        loadPage(id, text);
+    })
+
+    //加载欢迎页面
+    function loadWellcom() {
+        loadPage('wellcome.html', '欢迎使用');
+    }
+
+    //加载页面
+    function loadPage(id, text) {
+        var count = $('li[lay-id="' + id + '"]').length;
+        if (count < 1) {
+            layui.element.tabAdd('tab', {
+                title: text
+                , content: '<iframe src="' + id + '" style="width: 100%;border:none;height: 100%"></iframe>'
+                , id: id
+            });
+            layui.element.tabChange('tab', id);
+        }
+        if (count == 1) {
+            layui.element.tabChange('tab', id);
+        }
+    }
+
+    //加载我的信息
+    function loadMe() {
+        Ajax({
+            url:currUserUrl,
+            onSuccess:function (data) {
+                $('#div-username').html(data.data.username);
+                $('#div-realname').html(data.data.nickname);
+            }
+        });
+    }
+</script>
+</body>
+</html>

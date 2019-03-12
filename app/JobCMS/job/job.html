@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>招聘信息列表</title>
+    <link rel="stylesheet" href="../resource/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/easyui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/icon.css">
+    <script src="../resource/common/js/config.js"></script>
+    <script src="../resource/lib/jq/jquery.min.js"></script>
+    <script src="../resource/lib/easyui-theme/jquery.easyui.min.js"></script>
+    <script src="../resource/lib/easyui-theme/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../resource/lib/gateway/gateway.js"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options='fit:"true"'>
+    <table id="table-job" data-options="toolbar:'#tb-job'"></table>
+</div>
+<form id="tb-job" class="layui-form">
+    <div class="layui-inline" style="margin-right: 10px">
+        <label class="layui-form-label">名称：</label>
+        <div class="layui-input-inline">
+            <input name="name" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-inline" style="margin-right: 10px">
+        <label class="layui-form-label">分类：</label>
+        <div class="layui-input-inline">
+            <select id="sel-jobClassify" name="jobClassifyId" class="layui-select">
+                <option value="">全部</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-inline" style="margin-right: 10px">
+        <label class="layui-form-label">状态：</label>
+        <div class="layui-input-inline">
+            <select name="publishStatus" class="layui-select">
+                <option value="">全部</option>
+                <option value="0">待审核</option>
+                <option value="1">通过</option>
+                <option value="2">未通过</option>
+                <option value="3">已下架</option>
+            </select>
+        </div>
+    </div>
+    <button class="layui-btn" type="button" onclick="search()"><i class="layui-icon">&#xe615;</i>搜索</button>
+</form>
+<script id="lay-job" type="text/html">
+    <div style="padding: 10px;">
+        <form class="layui-form layui-form-pane form-job">
+            <input id="opt-type" type="hidden" name="opt_type"/>
+            <input type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" readonly required data-valid="name:'名称',length:[1,50],notEmpty:true"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">薪资（/时）</label>
+                <div class="layui-input-block">
+                    <input type="text" name="salary" readonly required
+                           data-valid="name:'薪资',length:[1,10],notEmpty:true"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">人数</label>
+                <div class="layui-input-block">
+                    <input type="number" name="peopleCountLimit" readonly required
+                           data-valid="name:'人数',length:[1,10],notEmpty:true"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">结算方式</label>
+                <div class="layui-input-block">
+                    <select class="layui-select" name="settleType">
+                        <option value="1">日结</option>
+                        <option value="2">月结</option>
+                        <option value="3">季结</option>
+                        <option value="4">年结</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">发布时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="createTime" readonly required
+                           data-valid="name:'发布时间',length:[1,20],notEmpty:true"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">工作详情</label>
+                <div class="layui-input-block">
+                    <textarea name="content" placeholder="工作详情" readonly
+                              data-valid="name:'工作详情',length:[1,1000],notEmpty:true"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">工作时间</label>
+                <div class="layui-input-block">
+                    <textarea name="workTime" placeholder="工作时间" readonly
+                              data-valid="name:'工作时间',length:[1,1000],notEmpty:true"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">工作地点</label>
+                <div class="layui-input-block">
+                    <textarea name="address" placeholder="工作地点" readonly
+                              data-valid="name:'工作地点',length:[1,1000],notEmpty:true"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属公司</label>
+                <div class="layui-input-block">
+                    <input id="inp-companyName" readonly class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">公司简介</label>
+                <div class="layui-input-block">
+                    <textarea name="te-companyIntroduce" class="layui-textarea" placeholder="公司简介" readonly></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: right">
+                <button type="button" class="layui-btn " onclick="reviewed($('.form-job').find('input[name=id]').val(),1)"><i class="layui-icon">&#xe605;</i>通过</button>
+                <button type="button" class="layui-btn layui-btn-danger" onclick="reviewed($('.form-job').find('input[name=id]').val(),2)"><i class="layui-icon">&#x1006;</i>不通过</button>
+            </div>
+        </form>
+    </div>
+</script>
+<script src="../resource/lib/layui/layui.all.js"></script>
+<script src="../resource/common/js/util.js"></script>
+<script>
+    var listUrl = '/sys/job/list';
+    var updateUrl = '/sys/job/update'
+    var companyUrl = '/sys/user/detail';
+    var detailUrl = '/sys/job/detail';
+    var classifyListUrl = '/sys/jobClassify/list';
+    var type = 1;
+
+    $(function () {
+        type = GatewayUtil.getParam('type');
+        initDataGrid();
+        loadClassify();
+    })
+
+    //加载分类
+    function loadClassify() {
+        Ajax({
+            url: classifyListUrl,
+            data: {page: 1, rows: 1000, type:type},
+            onSuccess: function (data) {
+                var html = '';
+                for (var i = 0; i < data.data.rows.length; i++) {
+                    html += '<option value="' + data.data.rows[i].id + '">' + data.data.rows[i].name + '</option>';
+                }
+                $('#sel-jobClassify').append(html);
+                layui.form.render('select');
+            }
+        })
+    }
+
+    //搜索
+    function search() {
+        var postData = FormUtil.getFormMap('#tb-job');
+        postData.page = 1;
+        postData.rows = 10;
+        postData.type = type;
+        $('#table-job').datagrid('load', postData);
+    }
+
+    //审核
+    function reviewed(id, publishStatus) {
+        Ajax({
+            url: updateUrl,
+            data: {id: id, publishStatus: publishStatus},
+            onSuccess: function (data) {
+                layer.closeAll();
+                layer.msg(data.msg, {icon: 1});
+                $('#table-job').datagrid('reload');
+            }
+        });
+    }
+
+    //展示编辑
+    function showEdit(id) {
+        Ajax({
+            url: detailUrl,
+            data: {id: id},
+            onSuccess: function (data) {
+                layer.open({
+                    type: 1
+                    , title: '审核'
+                    , area: ['430px', '580px']
+                    , content: $('#lay-job').html()
+                    , success: function () {
+                        data.data.salary = data.data.salary + data.data.salaryUnit;
+                        FormUtil.loadForm('.form-job', data.data);
+                        layui.form.render();
+
+                        //加载公司信息
+                        Ajax({
+                            url:companyUrl,
+                            data:{ id:data.data.createUserId },
+                            onSuccess:function (data) {
+                                $('#inp-companyName').val(data.data.name);
+                                $('#inp-companyIntroduce').val(data.data.introduce);
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+    //初始化表格数据
+    function initDataGrid() {
+        EasyUIUtil.initDataGrid('#table-job', listUrl, getColumns(), {type: type,orderType:2});
+        var pager = $('#table-job').datagrid('getPager');
+        pager.pagination({
+            showPageList: true,
+            buttons: [],
+            onBeforeRefresh: function () {
+                return true;
+            }
+        });
+    }
+
+    //获取列
+    function getColumns() {
+        var columns = [[
+            {field: 'ck', checkbox: true},
+            {field: 'name', width: 50, align: 'center', title: "名称"},
+            {field: 'createTime', width: 50, align: 'center', title: "发布时间"},
+            {
+                field: 'peopleCountLimit',
+                width: 50, align: 'center',
+                title: "人数限制",
+                formatter:function (val, row) {
+                    return val==null?'不限':val;
+                }
+            },
+            {
+                field: 'salary',
+                width: 50,
+                align: 'center',
+                title: "时薪",
+                formatter:function (val, row) {
+                    return val==null?'薪资面议':val + row.salaryUnit;
+                }
+            },
+            {
+                field: 'publishStatus',
+                width: 50,
+                align: 'center',
+                title: "状态",
+                formatter:function (val, row) {
+                    if (val == 0) {
+                        return '待审核';
+                    }
+                    if (val == 1) {
+                        return '通过';
+                    }
+                    if (val == 2) {
+                        return '不通过';
+                    }
+                    return '未知状态';
+                }
+            },
+            {
+                field: 'id',
+                width: 50,
+                align: 'center',
+                title: "操作",
+                formatter: function (val, row) {
+                    var btn = '<button class="layui-btn layui-btn-xs" onclick="showEdit(\'' + val + '\')"><i class="layui-icon">&#xe615;</i>查看</button>'
+                    btn += '<button class="layui-btn layui-btn-xs layui-btn-normal" onclick="reviewed(\'' + val + '\',1)"><i class="layui-icon">&#xe605;</i>通过</button>';
+                    btn += '<button class="layui-btn layui-btn-xs layui-btn-danger" onclick="reviewed(\'' + val + '\',2)"><i class="layui-icon">&#x1006;</i>不通过</button>';
+                    return btn;
+                }
+            }
+        ]];
+        return columns;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+.filemgr .item-info {
+    height: auto;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.filemgr .upload-item .tip {
+    float: left;
+    width: 20%;
+}
+
+.filemgr .upload-item .filename {
+    float: left;
+    width: 35%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 5px
+}
+
+.filemgr .upload-item .filesize {
+    float: left;
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.filemgr .upload-item .percent {
+    float: right;
+    max-width: 10%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.filemgr .div-table {
+    height: 200px;
+    margin-top: -11px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    border: 1px solid #e6e6e6;
+}
+
+.div-table table {
+    margin: -1px;
+}
+
+.filemgr .upload-page {
+    width: 640px;
+    height: 95%;
+    padding: 0 10px;
+}
+
+#file-list, #finished-list {
+    width: 100%;
+}
+
+#file-list tr, #finished-list tr {
+    height: auto;
+}
+
+.filemgr .tablebody {
+    width: 100%;
+}
+
+.filemgr .btn-menus {
+    float: right;
+}
+
+#btn-selectFile input {
+    display: none;
+    width: 0px;
+    height: 0px;
+    float: left;
+}

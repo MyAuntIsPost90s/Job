@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>系统配置设置</title>
+    <link rel="stylesheet" href="../resource/lib/layui/css/layui.css">
+    <script src="../resource/lib/jq/jquery.min.js"></script>
+    <script src="../resource/lib/layui/layui.all.js"></script>
+    <script src="../resource/common/js/config.js"></script>
+    <script src="../resource/lib/easyui-theme/jquery.easyui.min.js"></script>
+    <script src="../resource/lib/easyui-theme/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../resource/lib/gateway/gateway.js"></script>
+
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/easyui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/icon.css">
+</head>
+
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>系统配置</legend>
+</fieldset>
+<div class="easyui-layout" data-options='fit:"true"'>
+    <div style="height: 100%;width: 100%;overflow-y: auto">
+        <form id="form-sysConfig" class="layui-form">
+            <input type="hidden" name="id"/>
+            <input type="hidden" name="freight"/>
+            <blockquote class="layui-elem-quote layui-text" style="margin: 10px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 150px">logo：</label>
+                    <div class="layui-input-inline" style="width: 500px">
+                        <img id="img-logoPicUrl" data-path="" src="../resource/common/images/dftimg.png" height="50px"/>
+                        <button type="button" class="layui-btn" id="btn-logoPicUrl">
+                            <i class="layui-icon">&#xe67c;</i>上传
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 150px">网站介绍图：</label>
+                    <div class="layui-input-inline" style="width: 500px">
+                        <img id="img-introducePicUrl" data-path="" src="../resource/common/images/dftimg.png" height="100px"/>
+                        <button type="button" class="layui-btn" id="btn-introducePicUrl">
+                            <i class="layui-icon">&#xe67c;</i>上传
+                        </button>
+                    </div>
+                </div>
+            </blockquote>
+            <blockquote class="layui-elem-quote layui-text" style="margin: 10px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 150px">版权信息：</label>
+                    <div class="layui-input-inline">
+                        <input name="copyright" type="text" class="layui-input" data-valid="name:'版权信息',length:[1,50],notEmpty:true" />
+                    </div>
+                </div>
+            </blockquote>
+        </form>
+
+        <div id="div-menu"></div>
+
+        <button type="button" data-name="navbarBackgroundColor" class="layui-btn btn-sel-color" onclick="save()"><i
+                class="layui-icon">&#xe605;</i>保存
+        </button>
+    </div>
+</div>
+<script src="../resource/lib/layui/layui.all.js"></script>
+<script src="../resource/common/js/util.js"></script>
+<script>
+    var imgBasePath = '/sysConfig';
+    var detailUrl = '/sys/sysConfig/detail';
+    var editUrl = '/sys/sysConfig/edit';
+
+    $(function () {
+        loadData();
+        initUploader();
+    })
+
+    //加载数据
+    function loadData() {
+        Ajax({
+            url: detailUrl,
+            onSuccess: function (data) {
+                FormUtil.loadForm('#form-sysConfig', data.data);
+                //加载logo
+                if (data.data.logoPicUrl != null && data.data.logoPicUrl != '') {
+                    $('#img-logoPicUrl').attr('src', data.data.logoPicUrl);
+                    $('#img-logoPicUrl').attr('data-path', data.data.logoPicUrlNoPrefix);
+                }
+                if (data.data.introducePicUrl != null && data.data.introducePicUrl != '') {
+                    $('#img-introducePicUrl').attr('src', data.data.introducePicUrl);
+                    $('#img-introducePicUrl').attr('data-path', data.data.introducePicUrlNoPrefix);
+                }
+                layui.form.render();
+            }
+        });
+    }
+
+    //保存
+    function save() {
+        var postData = FormUtil.getFormMap('#form-sysConfig');
+        postData.logoPicUrl = $('#img-logoPicUrl').attr('data-path');
+        if (postData.logoPicUrl == null || postData.logoPicUrl == '') {
+            layer.msg('logo不能为空');
+            return;
+        }
+        postData.introducePicUrl = $('#img-introducePicUrl').attr('data-path');
+        if (postData.introducePicUrl == null || postData.introducePicUrl == '') {
+            layer.msg('介绍图不能为空');
+            return;
+        }
+        Ajax({
+            url: editUrl,
+            data: postData,
+            onSuccess: function (data) {
+                layer.msg(data.msg, {icon: 1});
+            }
+        });
+    }
+
+    //初始上传组件
+    function initUploader() {
+        //logo
+        layui.upload.render({
+            elem: '#btn-logoPicUrl' //绑定元素
+            , accept: 'images'
+            , data: {
+                basePath: imgBasePath
+            }
+            , url: UPLOAD_URL //上传接口
+            , size: 1024
+            , before: function () {
+                layer.load();
+            }
+            , done: function (res) {
+                layer.closeAll('loading');
+                $('#img-logoPicUrl').attr("data-path", res.data[0].path);
+                $('#img-logoPicUrl').attr("src", res.data[0].url);
+            }
+            , error: function () {
+                layer.closeAll('loading');
+            }
+        });
+        //介绍
+        layui.upload.render({
+            elem: '#btn-introducePicUrl' //绑定元素
+            , accept: 'images'
+            , data: {
+                basePath: imgBasePath
+            }
+            , url: UPLOAD_URL //上传接口
+            , size: 1024
+            , before: function () {
+                layer.load();
+            }
+            , done: function (res) {
+                layer.closeAll('loading');
+                $('#img-introducePicUrl').attr("data-path", res.data[0].path);
+                $('#img-introducePicUrl').attr("src", res.data[0].url);
+            }
+            , error: function () {
+                layer.closeAll('loading');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

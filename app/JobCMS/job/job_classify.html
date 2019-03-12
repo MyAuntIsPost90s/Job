@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>招聘分类列表</title>
+    <link rel="stylesheet" href="../resource/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/easyui.css">
+    <link rel="stylesheet" href="../resource/lib/easyui-theme/themes/insdep/icon.css">
+    <script src="../resource/common/js/config.js"></script>
+    <script src="../resource/lib/jq/jquery.min.js"></script>
+    <script src="../resource/lib/easyui-theme/jquery.easyui.min.js"></script>
+    <script src="../resource/lib/easyui-theme/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../resource/lib/gateway/gateway.js"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options='fit:"true"'>
+    <table id="table-job-classify" data-options="toolbar:'#tb-job-classify'"></table>
+</div>
+<form id="tb-job-classify" class="layui-form">
+    <div class="layui-inline" style="margin-right: 10px">
+        <label class="layui-form-label">类型：</label>
+        <div class="layui-input-inline">
+            <select name="type" class="layui-select">
+                <option value="1" selected>兼职</option>
+                <option value="2">全职</option>
+            </select>
+        </div>
+    </div>
+    <button class="layui-btn" type="button" onclick="search()"><i class="layui-icon">&#xe615;</i>搜索</button>
+</form>
+<script id="lay-job-classify" type="text/html">
+    <div style="padding: 10px;">
+        <form class="layui-form layui-form-pane form-job-classify">
+            <input id="opt-type" type="hidden" name="opt_type"/>
+            <input type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required data-valid="name:'名称',length:[1,20]"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="type" value="1" title="兼职" checked="checked"/>
+                    <input type="radio" name="type" value="2" title="全职"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: right">
+                <button type="button" class="layui-btn" onclick="save()">保存</button>
+            </div>
+        </form>
+    </div>
+</script>
+<script src="../resource/lib/layui/layui.all.js"></script>
+<script src="../resource/common/js/util.js"></script>
+<script>
+    var listUrl = '/sys/jobClassify/list';
+    var addUrl = '/sys/jobClassify/add';
+    var updateUrl = '/sys/jobClassify/update';
+    var detailUrl = '/sys/jobClassify/detail';
+    var deleteUrl = '/sys/jobClassify/delete';
+
+    $(function () {
+        initDataGrid();
+    })
+
+    //搜索
+    function search() {
+        var postData = FormUtil.getFormMap('#tb-job-classify');
+        $('#table-job-classify').datagrid('load', postData);
+    }
+
+    //保存
+    function save() {
+        var postData = FormUtil.getFormMap(".form-job-classify");
+        if (postData == null || postData == '') {
+            return;
+        }
+        var url = addUrl;
+        if (postData.opt_type == 'edit') {
+            url = updateUrl;
+        }
+        Ajax({
+            url: url,
+            data: postData,
+            onSuccess: function (data) {
+                layer.closeAll();
+                layer.msg(data.msg, {icon: 1});
+                $('#table-job-classify').datagrid('reload');
+            }
+        });
+    }
+
+    //批量删除
+    function batchDelete() {
+        var rows = $('#table-job-classify').datagrid('getChecked');
+        if (rows.length < 1) {
+            return;
+        }
+        var ids = '';
+        for (var i = 0; i < rows.length; i++) {
+            ids += rows[i].id + ',';
+        }
+        layer.confirm("是否确定删除", function (index) {
+            Ajax({
+                url: deleteUrl,
+                data: {ids: ids},
+                onSuccess: function (data) {
+                    layer.msg(data.msg, {icon: 1});
+                    $('#table-job-classify').datagrid('reload');
+                }
+            });
+        }, function (index) {
+            layer.close(index);
+        });
+    }
+
+    //点击删除事件
+    function del(id) {
+        var ids = [];
+        ids.push(id);
+        layer.confirm("是否确定删除", function (index) {
+            Ajax({
+                url: deleteUrl,
+                data: {ids: id},
+                onSuccess: function (data) {
+                    layer.msg(data.msg, {icon: 1});
+                    $('#table-job-classify').datagrid('reload');
+                }
+            });
+        }, function (index) {
+            layer.close(index);
+        });
+    }
+
+    //展示添加
+    function showAdd() {
+        layer.open({
+            type: 1
+            , title: '添加工作分类'
+            , area: ['430px', '280px']
+            , content: $('#lay-job-classify').html()
+            , success: function () {
+                FormUtil.loadForm('#form-job-classify', {opt_type: 'add'});
+                layui.form.render();
+            }
+        })
+    }
+
+    //展示编辑框
+    function showEdit(id) {
+        Ajax({
+            url:detailUrl,
+            data:{id: id},
+            onSuccess:function (data) {
+                layer.open({
+                    type: 1
+                    , title: '修改工作分类'
+                    , content: $('#lay-job-classify').html()
+                    , area: ['430px', '280px']
+                    , success: function () {
+                        data.data.opt_type = 'edit';
+                        FormUtil.loadForm('.form-job-classify', data.data);
+                        layui.form.render();
+                    }
+                })
+            }
+        });
+    }
+
+    //初始化表格数据
+    function initDataGrid() {
+        EasyUIUtil.initDataGrid('#table-job-classify', listUrl, getColumns(), {type: $('select[name=type]').val()});
+        var pager = $('#table-job-classify').datagrid('getPager');
+        pager.pagination({
+            showPageList: true,
+            buttons: [{
+                iconCls: 'icon-add',
+                handler: function () {
+                    showAdd();
+                }
+            }, {
+                iconCls: 'icon-remove',
+                handler: function () {
+                    batchDelete();
+                }
+            }],
+            onBeforeRefresh: function () {
+                return true;
+            }
+        });
+    }
+
+    //获取列
+    function getColumns() {
+        var columns = [[
+            {field: 'ck', checkbox: true},
+            {field: 'name', width: 50, align: 'center', title: "名称"},
+            {
+                field: 'type',
+                width: 50,
+                align: 'center',
+                title: "类型",
+                formatter: function (val, row) {
+                    if (val == 1) {
+                        return "兼职";
+                    }
+                    if (val == 2) {
+                        return '全职';
+                    }
+                    return '未知类别';
+                }
+            },
+            {
+                field: 'id',
+                width: 50,
+                align: 'center',
+                title: "操作",
+                formatter: function (val, row) {
+                    var btn = '<button class="layui-btn layui-btn-xs" onclick="showEdit(\'' + val + '\')"><i class="layui-icon">&#xe642;</i>编辑</button>'
+                    btn += '<button class="layui-btn layui-btn-xs layui-btn-danger" onclick="del(\'' + val + '\')"><i class="layui-icon">&#xe640;</i>移除</button>';
+                    return btn;
+                }
+            }
+        ]];
+        return columns;
+    }
+</script>
+</body>
+</html>
