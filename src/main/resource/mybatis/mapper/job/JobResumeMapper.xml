@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.job.service.job.dao.JobResumeMapper" >
+  <select id="getList" resultType="com.bs.job.service.job.model.JobResume" parameterType="com.bs.job.service.job.model.JobResume" >
+    select * from job_resume
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="status != null" >
+      and status = #{status}
+    </if>
+  </select>
+  
+  <select id="getSingle" resultType="com.bs.job.service.job.model.JobResume" >
+    select * from job_resume
+    where id = #{id}
+    limit 0,1
+  </select>
+  
+  <insert id="insert" parameterType="com.bs.job.service.job.model.JobResume" >
+    insert into job_resume
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status
+      </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="jobId != null" >
+        #{jobId},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="status != null" >
+        #{status}
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.bs.job.service.job.model.JobResume" >
+    update job_resume
+    <set >
+      <if test="jobId != null" >
+        job_id = #{jobId},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="status != null" >
+        status = #{status}
+      </if>
+    </set>
+    where
+    id = #{id}
+  </update>
+  
+  <delete id="batchDelete" >
+    delete from job_resume
+    where id in(
+    <foreach item="item" collection="list" separator="," >
+      #{item}
+    </foreach>
+    )
+  </delete>
+  
+  <select id="getListWithPage" resultType="com.bs.job.service.job.model.JobResume" parameterType="com.bs.job.service.job.model.JobResume" >
+    select * from job_resume
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="status != null" >
+      and status = #{status}
+    </if>
+  </select>
+  
+  <select id="count" resultType="java.lang.Long" parameterType="com.bs.job.service.job.model.JobResume" >
+    select count(*) from job_resume
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="status != null" >
+      and status = #{status}
+    </if>
+  </select>
+  
+</mapper>

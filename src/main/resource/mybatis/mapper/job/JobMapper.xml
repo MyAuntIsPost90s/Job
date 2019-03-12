@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.job.service.job.dao.JobMapper" >
+  <select id="getList" resultType="com.bs.job.service.job.model.Job" parameterType="com.bs.job.service.job.model.Job" >
+    select * from job
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="name != null" >
+      and name = #{name}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="jobClassifyId != null" >
+      and job_classify_id = #{jobClassifyId}
+    </if>
+    <if test="settleType != null" >
+      and settle_type = #{settleType}
+    </if>
+    <if test="salary != null" >
+      and salary = #{salary}
+    </if>
+    <if test="type != null" >
+      and type = #{type}
+    </if>
+    <if test="address != null" >
+      and address = #{address}
+    </if>
+    <if test="peopleCountLimit != null" >
+      and people_count_limit = #{peopleCountLimit}
+    </if>
+    <if test="publishStatus != null" >
+      and publish_status = #{publishStatus}
+    </if>
+    <if test="sexLimit != null" >
+      and sex_limit = #{sexLimit}
+    </if>
+    <if test="workTime != null" >
+      and work_time = #{workTime}
+    </if>
+    <if test="content != null" >
+      and content = #{content}
+    </if>
+  </select>
+  
+  <select id="getSingle" resultType="com.bs.job.service.job.model.Job" >
+    select * from job
+    where id = #{id}
+    limit 0,1
+  </select>
+  
+  <insert id="insert" parameterType="com.bs.job.service.job.model.Job" >
+    insert into job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="jobClassifyId != null" >
+        job_classify_id,
+      </if>
+      <if test="settleType != null" >
+        settle_type,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="peopleCountLimit != null" >
+        people_count_limit,
+      </if>
+      <if test="publishStatus != null" >
+        publish_status,
+      </if>
+      <if test="sexLimit != null" >
+        sex_limit,
+      </if>
+      <if test="workTime != null" >
+        work_time,
+      </if>
+      <if test="content != null" >
+        content
+      </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="jobClassifyId != null" >
+        #{jobClassifyId},
+      </if>
+      <if test="settleType != null" >
+        #{settleType},
+      </if>
+      <if test="salary != null" >
+        #{salary},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="address != null" >
+        #{address},
+      </if>
+      <if test="peopleCountLimit != null" >
+        #{peopleCountLimit},
+      </if>
+      <if test="publishStatus != null" >
+        #{publishStatus},
+      </if>
+      <if test="sexLimit != null" >
+        #{sexLimit},
+      </if>
+      <if test="workTime != null" >
+        #{workTime},
+      </if>
+      <if test="content != null" >
+        #{content}
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.bs.job.service.job.model.Job" >
+    update job
+    <set >
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="jobClassifyId != null" >
+        job_classify_id = #{jobClassifyId},
+      </if>
+      <if test="settleType != null" >
+        settle_type = #{settleType},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="address != null" >
+        address = #{address},
+      </if>
+      <if test="peopleCountLimit != null" >
+        people_count_limit = #{peopleCountLimit},
+      </if>
+      <if test="publishStatus != null" >
+        publish_status = #{publishStatus},
+      </if>
+      <if test="sexLimit != null" >
+        sex_limit = #{sexLimit}
+      </if>
+    </set>
+    where
+    id = #{id}
+  </update>
+  
+  <delete id="batchDelete" >
+    delete from job
+    where id in(
+    <foreach item="item" collection="list" separator="," >
+      #{item}
+    </foreach>
+    )
+  </delete>
+  
+  <select id="getListWithPage" resultType="com.bs.job.service.job.model.Job" parameterType="com.bs.job.service.job.model.Job" >
+    select * from job
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="name != null" >
+      and name = #{name}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="jobClassifyId != null" >
+      and job_classify_id = #{jobClassifyId}
+    </if>
+    <if test="settleType != null" >
+      and settle_type = #{settleType}
+    </if>
+    <if test="salary != null" >
+      and salary = #{salary}
+    </if>
+    <if test="type != null" >
+      and type = #{type}
+    </if>
+    <if test="address != null" >
+      and address = #{address}
+    </if>
+    <if test="peopleCountLimit != null" >
+      and people_count_limit = #{peopleCountLimit}
+    </if>
+    <if test="publishStatus != null" >
+      and publish_status = #{publishStatus}
+    </if>
+    <if test="sexLimit != null" >
+      and sex_limit = #{sexLimit}
+    </if>
+    <if test="workTime != null" >
+      and work_time = #{workTime}
+    </if>
+    <if test="content != null" >
+      and content = #{content}
+    </if>
+  </select>
+  
+  <select id="count" resultType="java.lang.Long" parameterType="com.bs.job.service.job.model.Job" >
+    select count(*) from job
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="name != null" >
+      and name = #{name}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="jobClassifyId != null" >
+      and job_classify_id = #{jobClassifyId}
+    </if>
+    <if test="settleType != null" >
+      and settle_type = #{settleType}
+    </if>
+    <if test="salary != null" >
+      and salary = #{salary}
+    </if>
+    <if test="type != null" >
+      and type = #{type}
+    </if>
+    <if test="address != null" >
+      and address = #{address}
+    </if>
+    <if test="peopleCountLimit != null" >
+      and people_count_limit = #{peopleCountLimit}
+    </if>
+    <if test="publishStatus != null" >
+      and publish_status = #{publishStatus}
+    </if>
+    <if test="sexLimit != null" >
+      and sex_limit = #{sexLimit}
+    </if>
+    <if test="workTime != null" >
+      and work_time = #{workTime}
+    </if>
+    <if test="content != null" >
+      and content = #{content}
+    </if>
+  </select>
+  
+  <select id="list" parameterType="com.bs.job.service.job.model.JobListQuery" resultType="com.bs.job.service.job.dto.JobDto">
+  	SELECT 
+  		j.*
+  		<if test="applicantId != null">
+  			,exists (select 1 from job_resume where id = j.id and user_id = #{applicantId}) applyed
+  		</if>
+  	FROM job j
+	LEFT JOIN(SELECT COUNT(*) count,job_id FROM job_resume GROUP BY job_id) jr ON j.id = jr.job_id
+	where 1=1
+	<if test="jobId != null" >
+      and j.id = #{jobId}
+    </if>
+    <if test="name != null" >
+      and name like concat('%',#{name},'%')
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="jobClassifyId != null" >
+      and job_classify_id = #{jobClassifyId}
+    </if>
+    <if test="settleType != null" >
+      and settle_type = #{settleType}
+    </if>
+    <if test="type != null" >
+      and type = #{type}
+    </if>
+    <if test="publishStatus != null" >
+      and publish_status = #{publishStatus}
+    </if>
+    <if test="orderType == 1">
+      order by j.create_time desc
+    </if>
+    <if test="orderType == 2">
+      order by jr.count desc
+    </if>
+  </select>
+  
+  <select id="applyHistory" resultType="com.bs.job.service.job.dto.JobDto">
+  	select 
+  		j.*
+  	from
+  		job_resume jr
+  	left join j.id = jr.job_id
+  	where jr.user_id = #{userId}
+  	<if test="name != null">
+  		and j.name like concat('%',#{name},'%')
+  	</if>
+  	order by jr.create_time desc
+  </select>
+</mapper>

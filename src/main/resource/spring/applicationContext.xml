@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean class="lingshi.utilities.SpringUtil" />
+	
+	<bean id="lingShiConfig" class="lingshi.model.LingShiConfig" >
+		<property name="appKey" value="JOB201902"/>
+		<property name="useSSO" value="true"/>
+		<property name="tokenName" value="Job_Token"/>
+		<property name="tokenExp" value="172800000" />
+	</bean>
+
+	<import resource="springDataSource.xml"/>
+	<import resource="springMybaties.xml"/>
+</beans>

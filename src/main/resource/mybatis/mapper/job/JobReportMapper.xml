@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.job.service.job.dao.JobReportMapper" >
+  <select id="getList" resultType="com.bs.job.service.job.model.JobReport" parameterType="com.bs.job.service.job.model.JobReport" >
+    select * from job_report
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="note != null" >
+      and note = #{note}
+    </if>
+    <if test="jobName != null" >
+      and job_name = #{jobName}
+    </if>
+    <if test="companyName != null" >
+      and company_name = #{companyName}
+    </if>
+  </select>
+  
+  <select id="getSingle" resultType="com.bs.job.service.job.model.JobReport" >
+    select * from job_report
+    where id = #{id}
+    limit 0,1
+  </select>
+  
+  <insert id="insert" parameterType="com.bs.job.service.job.model.JobReport" >
+    insert into job_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="companyName != null" >
+        company_name
+      </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="jobId != null" >
+        #{jobId},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="note != null" >
+        #{note},
+      </if>
+      <if test="jobName != null" >
+        #{jobName},
+      </if>
+      <if test="companyName != null" >
+        #{companyName}
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.bs.job.service.job.model.JobReport" >
+    update job_report
+    <set >
+      <if test="jobId != null" >
+        job_id = #{jobId},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="note != null" >
+        note = #{note},
+      </if>
+      <if test="jobName != null" >
+        job_name = #{jobName},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName}
+      </if>
+    </set>
+    where
+    id = #{id}
+  </update>
+  
+  <delete id="batchDelete" >
+    delete from job_report
+    where id in(
+    <foreach item="item" collection="list" separator="," >
+      #{item}
+    </foreach>
+    )
+  </delete>
+  
+  <select id="getListWithPage" resultType="com.bs.job.service.job.model.JobReport" parameterType="com.bs.job.service.job.model.JobReport" >
+    select * from job_report
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="note != null" >
+      and note = #{note}
+    </if>
+    <if test="jobName != null" >
+      and job_name = #{jobName}
+    </if>
+    <if test="companyName != null" >
+      and company_name = #{companyName}
+    </if>
+  </select>
+  
+  <select id="count" resultType="java.lang.Long" parameterType="com.bs.job.service.job.model.JobReport" >
+    select count(*) from job_report
+    where 1=1
+    <if test="id != null" >
+      and id = #{id}
+    </if>
+    <if test="jobId != null" >
+      and job_id = #{jobId}
+    </if>
+    <if test="createUserId != null" >
+      and create_user_id = #{createUserId}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime}
+    </if>
+    <if test="updateUserId != null" >
+      and update_user_id = #{updateUserId}
+    </if>
+    <if test="updateTime != null" >
+      and update_time = #{updateTime}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId}
+    </if>
+    <if test="note != null" >
+      and note = #{note}
+    </if>
+    <if test="jobName != null" >
+      and job_name = #{jobName}
+    </if>
+    <if test="companyName != null" >
+      and company_name = #{companyName}
+    </if>
+  </select>
+  
+  <select id="list" resultType="com.bs.job.service.job.dto.JobReportDto">
+  	select jr.* from job_report jr
+  	left join user u on jr.user_id = u.id
+  	where 1=1
+  	<if test="id != null">
+  	  and jr.id = #{id}
+  	</if>
+  	<if test="jobName != null">
+  	  and jr.job_name like concat('%',#{jobName},'%')
+  	</if>
+  	<if test="userRealName != null">
+  	  and u.name like concat('%',#{userRealName},'%')
+  	</if>
+  </select>
+</mapper>
