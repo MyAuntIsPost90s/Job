@@ -1,5 +1,7 @@
 package com.bs.job.gateway.sys.job;
 
+import java.util.Arrays;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,6 +74,27 @@ public class JobReportController {
 		} catch (Exception e) {
 			LogUtil.e(e);
 			requestHolder.fail("加载举报信息失败");
+		}
+	}
+	
+	/**
+	 * 删除举报记录
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 */
+	@RequestMapping("/delete")
+	public void delete(HttpServletRequest request, HttpServletResponse response, String ids) {
+		RequestHolder requestHolder = RequestHolder.get(request, response);
+		try {
+			jobReportService.delete(Arrays.asList(ids.split(",")));
+			requestHolder.success("删除成功");
+		}catch (ServiceException e) {
+			requestHolder.fail(e.getMessage());
+		} catch (Exception e) {
+			LogUtil.e(e);
+			requestHolder.fail("删除失败");
 		}
 	}
 }

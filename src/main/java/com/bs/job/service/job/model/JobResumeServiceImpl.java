@@ -10,6 +10,7 @@ import com.bs.job.service.common.util.BeanConvertUtil;
 import com.bs.job.service.common.util.UnidUtil;
 import com.bs.job.service.job.dao.JobResumeMapper;
 import com.bs.job.service.job.dto.JobResumeDto;
+import com.bs.job.service.job.enums.JobResumeEnum.Status;
 import com.bs.job.service.user.model.UserService;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
@@ -34,8 +35,8 @@ public class JobResumeServiceImpl implements JobResumeService {
 	private UserService userService;
 
 	@Override
-	public PageList<JobResumeDto> applicants(JobResume jobResume, int page, int rows) throws ServiceException {
-		PageList<JobResume> pageList = jobResumeMapper.getListWithPage(jobResume, new PageBounds(page, rows));
+	public PageList<JobResumeDto> applicants(String companyId, int page, int rows) throws ServiceException {
+		PageList<JobResume> pageList = jobResumeMapper.companyApplicants(companyId, new PageBounds(page, rows));
 		PageList<JobResumeDto> result = new PageList<>(pageList.getPaginator());
 		for (JobResume item : pageList) {
 			JobResumeDto jobResumeDto = BeanConvertUtil.convert(item, JobResumeDto.class);
@@ -64,10 +65,12 @@ public class JobResumeServiceImpl implements JobResumeService {
 		Date date = new Date();
 		jobResume.setId(UnidUtil.getId());
 		jobResume.setUserId(userId);
+		jobResume.setJobId(jobId);
 		jobResume.setUpdateUserId(userId);
 		jobResume.setUpdateTime(date);
 		jobResume.setCreateTime(date);
 		jobResume.setCreateUserId(userId);
+		jobResume.setStatus(Status.UN_DO.value);
 		jobResumeMapper.insert(jobResume);
 	}
 

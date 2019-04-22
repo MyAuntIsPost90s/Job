@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import lingshi.gateway.filter.EncodeFilter;
 import lingshi.gateway.filter.TokenCheckFilter;
@@ -50,4 +51,9 @@ public class AppStartConfig {
 		registration.addInitParameter("allowPath", environment.getProperty("filter.allowPath"));
 		return registration;
 	}
+	
+	@Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
 }

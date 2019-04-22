@@ -24,7 +24,7 @@ public interface JobResumeService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	PageList<JobResumeDto> applicants(JobResume jobResume, int page, int rows)
+	PageList<JobResumeDto> applicants(String companyId, int page, int rows)
 			throws ServiceException;
 
 	/**

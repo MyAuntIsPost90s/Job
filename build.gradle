@@ -101,12 +101,12 @@ dependencies {
 
     //poi
     compile 'org.apache.poi:poi:3.17'
-
-    //http
-    compile 'org.apache.httpcomponents:httpclient:4.5.6'
-    compile 'org.apache.httpcomponents:httpcore:4.4.10'
+    
+    //spring-websocket
+    compile 'org.springframework.boot:spring-boot-starter-websocket:2.1.4.RELEASE'
 
     compile files('src/main/webapp/WEB-INF/lib/lingshi_base.jar') //未加入maven中央库,需要手动加到本地仓库
+    compile files('src/main/webapp/WEB-INF/lib/websocket.jar')
 }
 
 //Task

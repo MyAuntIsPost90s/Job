@@ -3,13 +3,23 @@ package com.bs.job.service.job.dto;
 import com.bs.job.service.user.dto.UserDto;
 
 public class JobResumeDto {
+	
+	private String id;
 
 	private JobDto jobDto;
 
 	private UserDto userDto;
 
 	private Integer status;
+	
+	public String getId() {
+		return id;
+	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public JobDto getJobDto() {
 		return jobDto;
 	}

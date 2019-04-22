@@ -82,6 +82,11 @@ public class Job {
      * 工作内容
      */
     private String content;
+    
+    /**
+     * 报酬单位
+     */
+    private String salaryUnit;
 
     public String getId() {
         return id;
@@ -209,5 +214,13 @@ public class Job {
     
     public void setWorkTime(String workTime) {
 		this.workTime = workTime;
+	}
+    
+    public String getSalaryUnit() {
+		return salaryUnit;
+	}
+    
+    public void setSalaryUnit(String salaryUnit) {
+		this.salaryUnit = salaryUnit;
 	}
 }

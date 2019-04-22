@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bs.job.gateway.uimodel.AppPageList;
 import com.bs.job.service.common.util.LogUtil;
+import com.bs.job.service.job.dto.JobResumeDto;
 import com.bs.job.service.job.model.JobResume;
 import com.bs.job.service.job.model.JobResumeService;
 import com.bs.job.service.user.dto.UserDto;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
 
 import lingshi.gateway.model.RequestHolder;
 import lingshi.model.ServiceException;
@@ -21,11 +24,32 @@ import lingshi.model.ServiceException;
  * @author caich
  */
 @RestController("appJobResumeController")
-@RequestMapping("/app/jobResume")
+@RequestMapping("/app/JobResume")
 public class JobResumeController {
 
 	@Resource
 	private JobResumeService jobResumeService;
+
+	/**
+	 * 获取投递的简历列表
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/applicants")
+	public void applicants(HttpServletRequest request, HttpServletResponse response, int page, int rows) {
+		RequestHolder requestHolder = RequestHolder.get(request, response);
+		try {
+			UserDto userDto = (UserDto) requestHolder.getClientUser();
+			PageList<JobResumeDto> pageList = jobResumeService.applicants(userDto.getId(), page, rows);
+			requestHolder.success(new AppPageList<>(pageList.getPaginator().getTotalCount(), pageList));
+		} catch (ServiceException e) {
+			requestHolder.fail(e.getMessage());
+		} catch (Exception e) {
+			LogUtil.e(e);
+			requestHolder.fail("加载失败");
+		}
+	}
 
 	/**
 	 * 投递简历

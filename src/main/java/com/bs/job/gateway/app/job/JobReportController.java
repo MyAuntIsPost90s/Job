@@ -35,8 +35,8 @@ public class JobReportController {
 	 * @param response
 	 * @param jobReport
 	 */
-	@RequestMapping("/detail")
-	public void detail(HttpServletRequest request, HttpServletResponse response, JobReport jobReport) {
+	@RequestMapping("/add")
+	public void add(HttpServletRequest request, HttpServletResponse response, JobReport jobReport) {
 		RequestHolder requestHolder = RequestHolder.get(request, response);
 		try {
 			UserDto userDto = (UserDto)requestHolder.getClientUser();

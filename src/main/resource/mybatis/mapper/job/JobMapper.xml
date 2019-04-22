@@ -52,6 +52,9 @@
     <if test="content != null" >
       and content = #{content}
     </if>
+    <if test="salaryUnit != null">
+      and salary_unit = #{salaryUnit}
+    </if>
   </select>
   
   <select id="getSingle" resultType="com.bs.job.service.job.model.Job" >
@@ -109,7 +112,10 @@
         work_time,
       </if>
       <if test="content != null" >
-        content
+        content,
+      </if>
+      <if test="salaryUnit != null">
+       salary_unit
       </if>
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
@@ -159,8 +165,11 @@
         #{workTime},
       </if>
       <if test="content != null" >
-        #{content}
+        #{content},
       </if>
+      <if test="salaryUnit != null">
+       #{salaryUnit}
+    </if>
     </trim>
   </insert>
   
@@ -204,7 +213,10 @@
         publish_status = #{publishStatus},
       </if>
       <if test="sexLimit != null" >
-        sex_limit = #{sexLimit}
+        sex_limit = #{sexLimit},
+      </if>
+      <if test="salaryUnit != null">
+       salary_unit = #{salaryUnit}
       </if>
     </set>
     where
@@ -271,6 +283,10 @@
     <if test="content != null" >
       and content = #{content}
     </if>
+    <if test="salaryUnit != null">
+      salary_unit = #{salaryUnit}
+    </if>
+    order by create_time desc
   </select>
   
   <select id="count" resultType="java.lang.Long" parameterType="com.bs.job.service.job.model.Job" >
@@ -356,7 +372,7 @@
     <if test="publishStatus != null" >
       and publish_status = #{publishStatus}
     </if>
-    <if test="orderType == 1">
+    <if test="orderType != 2">
       order by j.create_time desc
     </if>
     <if test="orderType == 2">
@@ -369,7 +385,7 @@
   		j.*
   	from
   		job_resume jr
-  	left join j.id = jr.job_id
+  	left join job j on j.id = jr.job_id
   	where jr.user_id = #{userId}
   	<if test="name != null">
   		and j.name like concat('%',#{name},'%')

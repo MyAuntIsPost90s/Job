@@ -38,7 +38,7 @@ public class JobServiceImpl implements JobService {
 		PageList<JobDto> pageList = jobMapper.list(jobListQuery, new PageBounds(page, rows));
 		for (JobDto jobDto : pageList) {
 			if (StringValid.isNotNullOrEmpty(jobDto.getJobClassifyId())) {
-				jobDto.setJobClassifyDto(jobClassifyService.detail(jobDto.getJobClassifyId()));
+				jobDto.setJobClassify(jobClassifyService.detail(jobDto.getJobClassifyId()));
 			}
 		}
 		return pageList;
@@ -52,7 +52,7 @@ public class JobServiceImpl implements JobService {
 		PageList<JobDto> pageList = jobMapper.applyHistory(userId, name, new PageBounds(page, rows));
 		for (JobDto jobDto : pageList) {
 			if (StringValid.isNotNullOrEmpty(jobDto.getJobClassifyId())) {
-				jobDto.setJobClassifyDto(jobClassifyService.detail(jobDto.getJobClassifyId()));
+				jobDto.setJobClassify(jobClassifyService.detail(jobDto.getJobClassifyId()));
 			}
 		}
 		return pageList;

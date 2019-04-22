@@ -225,7 +225,7 @@
   </select>
   
   <select id="list" resultType="com.bs.job.service.job.dto.JobReportDto">
-  	select jr.* from job_report jr
+  	select jr.*,u.name userRealName from job_report jr
   	left join user u on jr.user_id = u.id
   	where 1=1
   	<if test="id != null">

@@ -2,186 +2,228 @@ package com.bs.job.service.job.dto;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class JobDto {
 	/**
-     * 主键：id
-     */
-    private String id;
+	 * 主键：id
+	 */
+	private String id;
 
-    /**
-     * 工作名称
-     */
-    private String name;
+	/**
+	 * 工作名称
+	 */
+	private String name;
 
-    /**
-     * 创建人id
-     */
-    private String createUserId;
+	/**
+	 * 创建人id
+	 */
+	private String createUserId;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+	/**
+	 * 创建时间
+	 */
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
-    /**
-     * 分类id
-     */
-    private String jobClassifyId;
+	/**
+	 * 分类id
+	 */
+	private String jobClassifyId;
 
-    /**
-     * 结算方式 ( 1日结 2 月结 3 季结 4 年结 )
-     */
-    private Integer settleType;
+	/**
+	 * 结算方式 ( 1日结 2 月结 3 季结 4 年结 )
+	 */
+	private Integer settleType;
 
-    /**
-     * 薪资
-     */
-    private String salary;
+	/**
+	 * 薪资
+	 */
+	private String salary;
 
-    /**
-     * 工作类型( 1 全职 2 兼职 )
-     */
-    private Integer type;
+	/**
+	 * 工作类型( 1 全职 2 兼职 )
+	 */
+	private Integer type;
 
-    /**
-     * 工作地点
-     */
-    private String address;
+	/**
+	 * 工作地点
+	 */
+	private String address;
 
-    /**
-     * 招聘人数
-     */
-    private Integer peopleCountLimit;
+	/**
+	 * 招聘人数
+	 */
+	private Integer peopleCountLimit;
 
-    /**
-     * 发布状态（0 未审核 1审核通过 2审核不通过 3下架）
-     */
-    private Integer publishStatus;
+	/**
+	 * 发布状态（0 未审核 1审核通过 2审核不通过 3下架）
+	 */
+	private Integer publishStatus;
 
-    /**
-     * 性别限制（0 女 1男 2不限）
-     */
-    private Integer sexLimit;
-    
-    /**
-     * 是否投递过
-     */
-    private Boolean applyed;
-    
-    /**
-     * 工作分类dto
-     */
-    private JobClassifyDto jobClassifyDto;
+	/**
+	 * 性别限制（0 女 1男 2不限）
+	 */
+	private Integer sexLimit;
 
-    public String getId() {
-        return id;
-    }
+	/**
+	 * 是否投递过
+	 */
+	private Boolean applyed;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	/**
+	 * 工作分类dto
+	 */
+	private JobClassifyDto jobClassify;
 
-    public String getName() {
-        return name;
-    }
+	/**
+	 * 报酬单位
+	 */
+	private String salaryUnit;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * 工作时间
+	 */
+	private String workTime;
 
-    public String getCreateUserId() {
-        return createUserId;
-    }
+	/**
+	 * 工作详情
+	 */
+	private String content;
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getJobClassifyId() {
-        return jobClassifyId;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setJobClassifyId(String jobClassifyId) {
-        this.jobClassifyId = jobClassifyId;
-    }
+	public String getCreateUserId() {
+		return createUserId;
+	}
 
-    public Integer getSettleType() {
-        return settleType;
-    }
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
 
-    public void setSettleType(Integer settleType) {
-        this.settleType = settleType;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public String getSalary() {
-        return salary;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setSalary(String salary) {
-        this.salary = salary;
-    }
+	public String getJobClassifyId() {
+		return jobClassifyId;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public void setJobClassifyId(String jobClassifyId) {
+		this.jobClassifyId = jobClassifyId;
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public Integer getSettleType() {
+		return settleType;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public void setSettleType(Integer settleType) {
+		this.settleType = settleType;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public String getSalary() {
+		return salary;
+	}
 
-    public Integer getPeopleCountLimit() {
-        return peopleCountLimit;
-    }
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
 
-    public void setPeopleCountLimit(Integer peopleCountLimit) {
-        this.peopleCountLimit = peopleCountLimit;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public Integer getPublishStatus() {
-        return publishStatus;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public void setPublishStatus(Integer publishStatus) {
-        this.publishStatus = publishStatus;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public Integer getSexLimit() {
-        return sexLimit;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public void setSexLimit(Integer sexLimit) {
-        this.sexLimit = sexLimit;
-    }
-    
-    public Boolean getApplyed() {
+	public Integer getPeopleCountLimit() {
+		return peopleCountLimit;
+	}
+
+	public void setPeopleCountLimit(Integer peopleCountLimit) {
+		this.peopleCountLimit = peopleCountLimit;
+	}
+
+	public Integer getPublishStatus() {
+		return publishStatus;
+	}
+
+	public void setPublishStatus(Integer publishStatus) {
+		this.publishStatus = publishStatus;
+	}
+
+	public Integer getSexLimit() {
+		return sexLimit;
+	}
+
+	public void setSexLimit(Integer sexLimit) {
+		this.sexLimit = sexLimit;
+	}
+
+	public Boolean getApplyed() {
 		return applyed;
 	}
-    
-    public void setApplyed(Boolean applyed) {
+
+	public void setApplyed(Boolean applyed) {
 		this.applyed = applyed;
 	}
-    
-    public JobClassifyDto getJobClassifyDto() {
-		return jobClassifyDto;
+
+	public JobClassifyDto getJobClassify() {
+		return jobClassify;
 	}
-    
-    public void setJobClassifyDto(JobClassifyDto jobClassifyDto) {
-		this.jobClassifyDto = jobClassifyDto;
+
+	public void setJobClassify(JobClassifyDto jobClassify) {
+		this.jobClassify = jobClassify;
+	}
+
+	public String getSalaryUnit() {
+		return salaryUnit;
+	}
+
+	public void setSalaryUnit(String salaryUnit) {
+		this.salaryUnit = salaryUnit;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getWorkTime() {
+		return workTime;
+	}
+
+	public void setWorkTime(String workTime) {
+		this.workTime = workTime;
 	}
 }

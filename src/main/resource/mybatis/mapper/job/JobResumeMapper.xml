@@ -188,4 +188,11 @@
     </if>
   </select>
   
+  <select id="companyApplicants" resultType="com.bs.job.service.job.model.JobResume" >
+  	select jr.* from job_resume jr
+  	inner join job j on jr.job_id = j.id
+  	where 
+  	j.create_user_id = #{companyId}
+  	order by jr.create_time desc
+  </select>
 </mapper>

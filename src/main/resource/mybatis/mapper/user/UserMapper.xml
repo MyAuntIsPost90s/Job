@@ -194,6 +194,9 @@
       <if test="introduce != null" >
         introduce = #{introduce},
       </if>
+      <if test="workLive != null" >
+        work_live = #{workLive},
+      </if>
       <if test="expMonth != null" >
         exp_month = #{expMonth}
       </if>

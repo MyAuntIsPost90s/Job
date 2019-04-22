@@ -63,10 +63,10 @@ public class UserController {
 		RequestHolder requestHolder = RequestHolder.get(request, response);
 		try {
 			UserDto userDto = (UserDto) requestHolder.getClientUser();
-			requestHolder.success("登陆成功", userDto);
+			requestHolder.success(userDto);
 		} catch (Exception e) {
 			LogUtil.e(e);
-			requestHolder.fail("登陆失败");
+			requestHolder.fail("获取当前登陆用户失败");
 		}
 	}
 
@@ -83,6 +83,7 @@ public class UserController {
 		try {
 			UserDto currUser = (UserDto) requestHolder.getClientUser();
 			user.setUpdateUserId(currUser.getId());
+			user.setId(currUser.getId());
 			currUser = userService.update(user);
 			requestHolder.updateClientUser(currUser);
 			requestHolder.success("修改成功");

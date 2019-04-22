@@ -85,6 +85,7 @@ public class JobClassifyServiceImpl implements JobClassifyService {
 			throw new ServiceException("id不能为空");
 		}
 		JobClassify jobClassifyQ = new JobClassify();
+		jobClassifyQ.setId(id);
 		List<JobClassifyDto> list = list(jobClassifyQ, 1, 1);
 		return ObjectValid.isEmpty(list) ? null : list.get(0);
 	}

@@ -12,6 +12,10 @@
 		<property name="tokenName" value="Job_Token"/>
 		<property name="tokenExp" value="172800000" />
 	</bean>
+	
+	<bean id="socketSessionConfig" class="com.lingshi.websocket.model.SocketSessionConfig">
+		<property name="effectiveTime" value="5000"/>
+	</bean>
 
 	<import resource="springDataSource.xml"/>
 	<import resource="springMybaties.xml"/>
