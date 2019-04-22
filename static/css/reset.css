@@ -1,0 +1,41 @@
+body,
+p,
+dl,
+dt,
+dd,
+ul,
+li,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: quote, "helvetica neue", tahoma, arial, "hiragino sans gb", "microsoft yahei", simsun, sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  border: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
