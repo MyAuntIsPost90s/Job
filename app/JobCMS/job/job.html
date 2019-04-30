@@ -78,9 +78,8 @@
                 <div class="layui-input-block">
                     <select class="layui-select" name="settleType">
                         <option value="1">日结</option>
-                        <option value="2">月结</option>
-                        <option value="3">季结</option>
-                        <option value="4">年结</option>
+                        <option value="2">半月结</option>
+                        <option value="3">月结</option>
                     </select>
                 </div>
             </div>
@@ -125,7 +124,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">公司简介</label>
                 <div class="layui-input-block">
-                    <textarea name="te-companyIntroduce" class="layui-textarea" placeholder="公司简介" readonly></textarea>
+                    <textarea id="te-companyIntroduce" class="layui-textarea" placeholder="公司简介" readonly></textarea>
                 </div>
             </div>
             <div class="layui-form-item" style="text-align: right">
@@ -211,7 +210,7 @@
                             data:{ id:data.data.createUserId },
                             onSuccess:function (data) {
                                 $('#inp-companyName').val(data.data.name);
-                                $('#inp-companyIntroduce').val(data.data.introduce);
+                                $('#te-companyIntroduce').val(data.data.introduce);
                             }
                         })
                     }
@@ -222,7 +221,7 @@
 
     //初始化表格数据
     function initDataGrid() {
-        EasyUIUtil.initDataGrid('#table-job', listUrl, getColumns(), {type: type,orderType:2});
+        EasyUIUtil.initDataGrid('#table-job', listUrl, getColumns(), {type: type,orderType:1});
         var pager = $('#table-job').datagrid('getPager');
         pager.pagination({
             showPageList: true,

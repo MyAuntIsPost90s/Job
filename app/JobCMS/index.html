@@ -10,9 +10,22 @@
     <script src="resource/common/js/config.js?version=0"></script>
     <script src="resource/lib/gateway/gateway.js?version=0"></script>
     <script src="resource/common/js/layout.js"></script>
+    <style>
+        .layui-nav-tree .layui-nav-item a {
+            color: #666 !important;
+        }
+
+        .layui-nav-tree .layui-nav-item a:hover {
+            background-color: #e8e8e8 !important
+        }
+
+        .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+            background-color: #e8e8e8 !important
+        }
+    </style>
 </head>
 <body>
-<div class="layui-header header layui-bg-black layui-row">
+<div class="layui-header header layui-bg-gray layui-row">
     <div class="layui-col-xs3 logo">Job CMS Online</div>
     <div class="layui-col-xs3 layui-col-xs-offset6 opt">
         <a onclick="loadWellcom()" style="cursor: pointer;">首页</a> |
@@ -20,7 +33,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="layui-inline layui-bg-black menu">
+    <div class="layui-inline layui-bg-gray menu">
         <div class="layui-row">
             <div class="layui-inline headimg">
                 <img id="img-userhead" class="layui-nav-img" src="resource/common/images/dfthead.png"/>
@@ -30,15 +43,15 @@
                 <div id="div-username">root</div>
             </div>
         </div>
-        <ul class="layui-nav layui-nav-tree">
-            <li class="layui-nav-item layui-nav-itemed">
+        <ul class="layui-nav layui-bg-gray layui-nav-tree">
+            <li class="layui-nav-item">
                 <a href="javascript:;">招聘管理</a>
                 <dl class="layui-nav-child">
                     <dd><a data-id="job/job_classify.html">分类设置</a></dd>
                 </dl>
-                <dl class="layui-nav-child">
-                    <dd><a data-id="job/job.html?type=2">全职设置</a></dd>
-                </dl>
+                <!--<dl class="layui-nav-child">-->
+                    <!--<dd><a data-id="job/job.html?type=2">全职设置</a></dd>-->
+                <!--</dl>-->
                 <dl class="layui-nav-child">
                     <dd><a data-id="job/job.html?type=1">兼职设置</a></dd>
                 </dl>
@@ -68,7 +81,7 @@
         </div>
     </div>
 </div>
-<div class="layui-footer layui-bg-black layout-footer"> build by ningxi</div>
+<div class="layui-footer layui-bg-gray layout-footer"> build by ningxi</div>
 
 <script src="resource/lib/layui/layui.all.js"></script>
 <script src="resource/common/js/util.js"></script>
@@ -111,8 +124,8 @@
     //加载我的信息
     function loadMe() {
         Ajax({
-            url:currUserUrl,
-            onSuccess:function (data) {
+            url: currUserUrl,
+            onSuccess: function (data) {
                 $('#div-username').html(data.data.username);
                 $('#div-realname').html(data.data.nickname);
             }

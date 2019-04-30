@@ -12,7 +12,7 @@
     padding:0 10px;
 }
 .header a{
-    color: #fff;
+    color: #666!important;
     text-decoration: none;
     padding:0px 8px;
 }
@@ -53,7 +53,7 @@
     font-size: 14px;
 }
 .info div:last-child{
-    color: #009688;
+    color: #666!important;
     font-size: 12px;
 }
 .main{
